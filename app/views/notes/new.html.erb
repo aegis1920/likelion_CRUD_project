@@ -1,0 +1,23 @@
+<center>
+ <br>
+ 
+<h1>LikeLion  2018  SYU  note</h1>
+<h6>삼육대 아기사자들의 대나무숲입니다.<br>자유롭게 작성해주세요~^^~</h6>
+<hr>
+
+<br>
+<br>
+
+ <!--form 태그의 action 속성은 그 URL로 간다는 의미다. https://wjfijilasdj.io/note/create로 간다. -->
+<form action="/notes/create" method='POST'>
+    <input type="hidden" name="authenticity_token" value=<%= @token %>></input><br>
+    <div style="line-height:300%">
+    이름 : <input type="text" name="input_title"></input><br>
+    내용 : <textarea type="text" name="input_content" cols="30"></textarea><br></div>
+    <input type="submit" value="저장"></input>
+    
+</form>
+<br><br><br><br><br>
+<button><a href="/">전체 글 목록 보기</a></button>
+
+</center>

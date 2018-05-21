@@ -1,0 +1,10 @@
+<h1>LikeLion2018_SYU_note</h1>
+<hr>
+<h2>글 수정</h2>
+<form action='/notes/<%= @note.id %>' method='POST'>
+    <input type='hidden' name='_method' value='patch'></input><br>
+    <input type='hidden' name='authenticity_token' value="<%= @token %>"></input><br>
+    <input type='text' name='input_title' value="<%= @note.title %>"></input><br>
+    <input type='text' name='input_content' value="<%= @note.content %>"></input><br>
+    <input type='submit' value='수정'></input>
+</form>

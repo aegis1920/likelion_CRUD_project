@@ -1,0 +1,41 @@
+<center>
+    <table>
+        <td width="320px">
+    <h1><marquee direction="up">~ 소리 없는 아우성 ~</marquee></h1>
+    </td>
+    </table>
+<br>
+
+
+<a onclick="this.nextSibling.style.display=(this.nextSibling.style.display=='none')?'block':'none';" href="javascript:void(0)"> 
+
+    <button>외치기</button>
+</a><div style="DISPLAY: none">
+<form action="/notes/create" method='POST'>
+    <input type="hidden" name="authenticity_token" value=<% @token %>></input><br>
+    <div style="line-height:200%">
+    이름 : <input type="text" name="input_title"></input><br>
+    내용 : <textarea type="text" name="input_content" cols="50"></textarea><br>
+    </div>
+    <input type="submit" value="저장"></input><br><br>
+</form>
+</div>
+<h1><br></h1>
+
+
+
+
+<hr>
+<table>
+    <td width="700px">
+    <ol start="1">
+    <% @notes.each do |note| %>
+    <div style="line-height:200%">
+<li>&nbsp;&nbsp; <a href="/notes/<%= note.id %>"><%= note.title %></a></li>
+</div>
+    <% end %>
+    </ol>
+    
+</td>
+</table>
+</center>

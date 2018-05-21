@@ -1,0 +1,28 @@
+<h1>LikeLion2018_SYU_note</h1>
+<hr>
+<h2><%= @note.id %>번 째 외침 : "<%= @note.title %>"</h2>
+<p><%= @note.content %></p>
+
+<button><a href="/">LIST</a></button>
+<% #TODO: confirm message %>
+
+<button><a href="/notes/<%= @note.id %>/edit">EDIT</a></button>
+<!--HTML tag is not support data-confirm and data-method attribute just only in ruby-->
+<button><a href="/notes/<%= @note.id %>" data-confirm='삭제하시겠습니까?' data-method='delete'>DELETE</a></button>
+
+<hr/>
+<form action='/comments' method='POST'>
+	<input type='hidden' name='authenticity_token' value=<%= @token %>></input>
+    <input type='hidden' name='note_id' value=<%= @note.id %>></input>
+	<Strong>Comments : </Strong>
+	<input type='text', name='input_content'></input>
+	<input type='submit'></input>
+</form>
+
+<% @note.comments.each do |comment| %>
+	<p>
+	    <%= comment.content %> | 
+	    <!--a tag is just support get HTTP method. so, we used data-mathod attribute-->
+	    <a href='/comments/<%= comment.id %>' data-confirm='댓글을 입력하세요' data-method='DELETE'>x</a>
+	</p>
+<% end %>
