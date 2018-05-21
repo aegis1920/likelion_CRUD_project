@@ -131,6 +131,3 @@ end
   delete '/comments/:id' => 'comments#destroy'
 ```
 4. debugger를 코드 안에 적어주면 실행되다가 debugger 코드가 있는 곳에서 실행이 멈춥니다. 그 때의 db들을 확인할 수 있습니다. 
-
-
-
