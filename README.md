@@ -1,4 +1,3 @@
-
 # Simple CRUD Project
 
 '멋쟁이 사자처럼'에서 진행한 것을 공부한 것입니다. 자세한 정보는 인터넷에서 찾아주시고 전체적인 흐름만 본다고 생각해주세요. 
@@ -68,20 +67,20 @@ end
 * rails는 POST 방식일 경우, 기본값으로 token을 사용하도록 되어있습니다. app/controllers/application_controller.rb 파일에서 `protect_from_forgery with: :exception` 이 부분이 rails에서 token을 쓸지 안 쓸지 정해줍니다. 이 부분을 주석처리하면 token을 안 써줘도 됩니다. 
 * **그래서 controller 파일에  token을 생성해주고 그에 따라 view 파일의 form에도 넣어줍니다.**
 
-## Restful
+## 'Restful하다'의 의미
 * REST(Representational State Transfer)
 * 웹의 장점을 최대한 활용할 수 있는 아키텍쳐입니다.
 * routes.rb에 보면 HTTP 메소드의 방식으로 GET을 쓰고 있습니다.
 * GET만 쓰게 되면 `/members/delete/1` 처럼 delete면 delete, update면 update라고 URL에 다 써줘야 합니다. 
 * CRUD는 POST, GET, PUT/PASTE, DELETE라는 HTTP 메소드를 이용해 표현할 수 있습니다. 
-* 그래서 GET을 이용해 CREATE을 했던 부분에 POST를 쓰고, READ는 GET, UPDATE에는 PATCH, DESTROY에는 DELETE를 씁니다.
+* 그래서 GET을 이용해 CREATE을 했던 부분에 POST를 쓰고, READ는 GET, UPDATE에는 PATCH(PUT과 비슷하다고 생각하면 됩니다. ), DESTROY에는 DELETE를 씁니다.
 
 ## Comment(댓글 기능 만들기)
 게시판에 Comment를 남기고 싶다면? 어떻게 하면 comment를 남길 수 있을까요?
 * comment라는 컬럼을 추가하면? -> 컬럼을 추가하게 되면 그 내용에 댓글을 100개를 달았을 때 100개의 칼럼이 되버립니다.
 * 결론은 Notes Table, Comment Table. 테이블을 두 개를 만드는 것입니다.
 
-### Terminal input
+### 데이터베이스 관계와 접근
 
 1. `rails g model Comment content:string note:belongs_to`
 	* Comment라는 model을 새로 생성합니다. 
@@ -95,34 +94,34 @@ end
 	5. `n.title = 'memo1'`
 	6. `n.content = 'hello world1'`
 	7. `n.save`
-		* 위의 4줄과 동일한 의미
-		* `Note.create! title: 'memo1', content: 'hello world1'`
+		* 위의 4줄과 동일한 의미의 코드
+		1. `Note.create! title: 'memo1', content: 'hello world1'`
 			* !를 쓰면 error log로 더 자세히 왜 틀렸는지 알려줍니다. !를 안 쓰면 error log를 별로 안 써줍니다.
-		* `n = Note.new title: 'memo1', content: 'hello world1' 한 후, n.save`
-		* `Comment.create content: 'Comment1', note_id: 2` 등등...
+		2. `n = Note.new title: 'memo1', content: 'hello world1' 한 후, n.save`
+		3. `Comment.create content: 'Comment1', note_id: 2` 등등...
 	8. 데이터베이스는 여러 가지 명령어로 접근할 수 있습니다. 
 		* 데이터베이스를 수정하려면 -> `c = Comment.find 5`로 찾아서 `c.content = '2*5 = 10'`로 수정해주고 `c.save`
 		* (가장 최근의) 데이터 베이스를 삭제하려면 -> `c = Comment.last`로 접근해서 `c.destroy`
-		* Note.find(1).comments
-		* Comment.find(1).id
-		* Comment.all.first.note_id
-5. `rails g controller Comments` 
+		* `Note.find(1).comments`
+		* `Comment.find(1).id`
+		* `Comment.all.first.note_id`
 
-### .html.erb 파일과 .rb 파일에 코드를 추가
-1. comment_controller.rb에 create action과 destory action을 만듭니다. 댓글은 show.html.erb 파일에서 보여지기 때문에 view 페이지가 필요없습니다.
-2. show.html.erb -> note의 id에 접근하기 위해서 type 속성을 hidden으로 줍니다. 그리고 a 태그는 http get 메소드만 지원하기 때문에 data-method로 따로 속성을 지정해줍니다.
-```html
-<input type='hidden' name='note_id' value=<%= @note.id %>></input>
+### controller를 만들고 .html.erb 파일과 .rb 파일에 코드를 추가
+1. `rails g controller Comments` 
+2. comments_controller.rb에 create action과 destory action을 만듭니다. 댓글은 notes의 show.html.erb 파일에서 보여지기 때문에 view 페이지가 필요없습니다.
+3. notes의 show.html.erb -> note의 id에 접근하기 위해서 type 속성을 hidden으로 줍니다. 그리고 a 태그는 http get 메소드만 지원하기 때문에 data-method로 따로 속성을 지정해줍니다.
+```html.erb
+<input type='hidden' name='note_id' value=<%= @note.id %></input>
 ...
 <% @note.comments.each do |comment| %>
 	<p>
 	    <%= comment.content %> | 
 	    <!--a tag is just support get HTTP method. so, we used data-mathod attribute-->
-	    <a href='/comments/<%= comment.id %>' data-confirm='댓글을 입력하세요' data-method='DELETE'>x</a>
+	    <a href='/comments/<%= comment.id %>' data-confirm='댓글을 입력하세요' data-method='DELETE'>삭제</a>
 	</p>
 <% end %>
 ```
- 3. routes.rb에는 댓글 생성과 삭제에 해당하는 곳에 HTTP 메소드을 추가합니다. 
+ 4. routes.rb파일 에는 댓글 생성과 삭제에 해당하는 곳에 HTTP 메소드을 추가합니다. 
 ```ruby
 #Comment
   #Create
@@ -130,4 +129,4 @@ end
   #Destroy
   delete '/comments/:id' => 'comments#destroy'
 ```
-4. debugger를 코드 안에 적어주면 실행되다가 debugger 코드가 있는 곳에서 실행이 멈춥니다. 그 때의 db들을 확인할 수 있습니다. 
+5. `debugger`를 코드 안에 적어주면 실행되다가 `debugger` 코드가 있는 곳에서 실행이 멈춥니다. 그 때의 db들을 확인할 수 있습니다. 
