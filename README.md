@@ -55,6 +55,9 @@ end
 17. create라는 view 파일을 찾지만 없으니 redirect를 해줍니다. `'/'`로 되어있으니 URL이 /로 가게 됩니다. 
 18. 즉, 사용자가 입력한 title과 content가 db라고 할 수 있는 table로 가게됩니다. 
 
+> 	view파일에서 <%= %>와 <%%>의 차이
+> - <%= %> - 루비 문법을 실행하고 출력
+> - <%%> - 루비 문법을 실행. 출력은 하지 않음.
 
 ## CSRF의 방어
 * CSRF(Cross-site Request Forgery)
